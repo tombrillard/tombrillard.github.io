@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #faf6ef; }
+    * { box-sizing: border-box; }
+    a { color: #b0634a; }
+    a:hover { color: #8c4a32; }
+    ::selection { background: #f0d3c6; }
+    .tb-scroll::-webkit-scrollbar { width: 8px; }
+    .tb-scroll::-webkit-scrollbar-thumb { background: #ddd0b8; border-radius: 8px; }
+  </style>
+  <script src="./image-slot.js"></script>
+</helmet>
+
+<div style="display:flex; width:100%; min-height:100vh; font-family:'Work Sans',sans-serif; color:#2a2520; background:#faf6ef;">
+
+  <aside class="tb-scroll" style="width:290px; flex:0 0 290px; background:#efe6d6; height:100vh; overflow-y:auto; overflow-x:hidden; padding:40px 30px; position:sticky; top:0;">
+    <a href="#qui-suis-je" onClick="{{ goHome }}" style="text-decoration:none; color:#2a2520; display:block;">
+      <div style="font-family:'Newsreader',serif; font-size:10.5px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-bottom:10px;">Portfolio</div>
+      <div style="font-family:'Newsreader',serif; font-size:34px; line-height:1; font-weight:500; letter-spacing:-0.01em;">Tom<br>Brillard</div>
+    </a>
+    <div style="display:inline-block; background:#f6d9cd; color:#b0634a; font-size:10px; letter-spacing:0.06em; font-weight:600; padding:5px 11px; border-radius:100px; margin:16px 0 22px; white-space:nowrap;">STAGE BUT2 · AVRIL – JUIN 2027</div>
+
+    <div style="display:flex; flex-direction:column; gap:4px; font-size:12.5px; color:#4a423a; line-height:1.5; margin-bottom:6px;">
+      <div>Nîmes (30)</div>
+      <div>07 81 62 61 97</div>
+      <a href="mailto:brillard.tom30@gmail.com" style="color:#4a423a; text-decoration:none;">brillard.tom30@gmail.com</a>
+      <div style="color:#8a8074;">Permis B</div>
+    </div>
+    <a href="./assets/CV-Tom-Brillard.pdf" download style="display:inline-flex; white-space:nowrap; font-size:12px; font-weight:600; color:#b0634a; border:1px solid #dcae9b; padding:7px 14px; border-radius:100px; margin:12px 0 30px; text-decoration:none;">↓ Télécharger mon CV</a>
+
+    <sc-for list="{{ nav }}" as="group" hint-placeholder-count="3">
+      <div style="margin-bottom:26px;">
+        <button onClick="{{ group.toggle }}" style="all:unset; cursor:pointer; display:flex; width:100%; justify-content:space-between; align-items:center; font-family:'Newsreader',serif; font-size:10.5px; letter-spacing:0.22em; color:#b0634a; text-transform:uppercase; margin-bottom:10px; gap:8px;">
+          <span style="flex:1; min-width:0; white-space:nowrap;">{{ group.name }}</span>
+          <span style="display:flex; align-items:center; justify-content:center; width:22px; height:22px; letter-spacing:0;"><span style="{{ group.chevronStyle }}">▾</span></span>
+        </button>
+        <sc-if value="{{ group.open }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <sc-for list="{{ group.items }}" as="item" hint-placeholder-count="3">
+              <div>
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                  <a href="{{ item.href }}" onClick="{{ item.onClick }}" style="{{ item.linkStyle }}">{{ item.label }}</a>
+                  <sc-if value="{{ item.children }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ item.toggle }}" aria-label="Dérouler" style="all:unset; cursor:pointer; display:flex; align-items:center; justify-content:center; width:22px; height:22px; color:#b0634a;">
+                      <span style="{{ item.chevronStyle }}">▾</span>
+                    </button>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ item.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="border-left:1px solid #dccdb4; margin:2px 0 6px 2px;">
+                    <sc-for list="{{ item.children }}" as="child" hint-placeholder-count="2">
+                      <a href="{{ child.href }}" onClick="{{ child.onClick }}" style="{{ child.linkStyle }}">{{ child.label }}</a>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </aside>
+
+  <main class="tb-scroll" style="flex:1; min-width:0; height:100vh; overflow-y:auto; overflow-x:hidden; padding:56px 64px 80px;">
+    <div style="max-width:760px;">
+
+      <sc-if value="{{ active.parentLabel }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ active.parentHref }}" onClick="{{ goParent }}" style="display:inline-flex; gap:6px; font-size:12.5px; color:#8a8074; text-decoration:none; margin-bottom:18px;">← {{ active.parentLabel }}</a>
+      </sc-if>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:32px;">
+        <div style="min-width:0;">
+          <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-bottom:12px;">{{ active.eyebrow }}</div>
+          <h1 style="font-family:'Newsreader',serif; font-size:52px; font-weight:500; margin:0; line-height:1.02; letter-spacing:-0.01em; text-wrap:pretty;">{{ active.title }}</h1>
+        </div>
+        <sc-if value="{{ active.isHome }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:0 0 170px; width:170px; height:170px; border-radius:50%; padding:8px; background:#fff; box-shadow:0 0 0 10px #efe6d6, 0 14px 30px rgba(80,55,30,0.15);">
+            <image-slot id="tb-avatar" shape="circle" style="min-width:0;width:100%;height:100%;" placeholder="Photo"></image-slot>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="height:1px; background:#e6dccb; margin:30px 0 28px;"></div>
+
+      <sc-for list="{{ active.paragraphs }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16px; line-height:1.8; color:#3a332c; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+
+      <sc-if value="{{ active.cta }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ active.cta.href }}" style="display:inline-block; background:#b0634a; color:#fff; font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; text-decoration:none; margin:8px 0 28px;">{{ active.cta.label }}</a>
+      </sc-if>
+
+      <sc-if value="{{ active.image }}" hint-placeholder-val="{{ false }}">
+        <image-slot id="{{ active.imgId }}" shape="rounded" radius="14" style="min-width:0;width:100%;height:340px;margin:12px 0 36px;display:block;" placeholder="{{ active.imgPlaceholder }}"></image-slot>
+      </sc-if>
+
+      <sc-if value="{{ active.subpages }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex; align-items:center; gap:14px; margin:8px 0 18px;">
+            <div style="font-family:'Newsreader',serif; font-size:24px; font-weight:500;">{{ active.subpagesTitle }}</div>
+            <div style="flex:1; height:1px; background:#e6dccb;"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:14px;">
+            <sc-for list="{{ active.subpages }}" as="sp" hint-placeholder-count="3">
+              <a href="{{ sp.href }}" onClick="{{ sp.onClick }}" style="display:flex; flex-direction:column; gap:8px; background:#f3ebdd; border-radius:14px; padding:20px; text-decoration:none; color:#2a2520; transition:background .15s;" style-hover="background:#ecdfca;">
+                <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+                  <div style="font-weight:600; font-size:15.5px;">{{ sp.title }}</div>
+                  <div style="color:#b0634a; font-size:15px;">→</div>
+                </div>
+                <div style="font-size:13.5px; color:#6b6259; line-height:1.55;">{{ sp.excerpt }}</div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ active.tps }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:12px; padding-top:36px; border-top:2px solid #2a2520;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-bottom:28px;">
+            <div style="font-family:'Newsreader',serif; font-size:32px; font-weight:500;">Travaux pratiques</div>
+            <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase; white-space:nowrap;">{{ active.tpCount }}</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:28px;">
+            <sc-for list="{{ active.tps }}" as="tp" hint-placeholder-count="2">
+              <article style="background:#fff; border:1px solid #ebe1d0; border-radius:18px; overflow:hidden;">
+                <div style="padding:26px 28px 20px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
+                    <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase;">TP {{ tp.num }}</div>
+                    <div style="font-size:12px; font-weight:600; color:#b0634a; background:#f6e6dd; padding:4px 11px; border-radius:100px;">{{ tp.date }}</div>
+                  </div>
+                  <h2 style="font-family:'Newsreader',serif; font-size:26px; font-weight:500; margin:0 0 12px; line-height:1.15;">{{ tp.title }}</h2>
+                  <sc-for list="{{ tp.text }}" as="para" hint-placeholder-count="1">
+                    <p style="font-size:15px; line-height:1.75; color:#4a423a; margin:0 0 10px; text-wrap:pretty;">{{ para }}</p>
+                  </sc-for>
+                </div>
+                <div style="position:relative; background:#f3ebdd;">
+                  <div style="overflow:hidden; width:100%;">
+                    <div style="{{ tp.trackStyle }}">
+                      <sc-for list="{{ tp.slides }}" as="sl" hint-placeholder-count="1">
+                        <div style="flex:0 0 100%; min-width:0; height:400px;">
+                          <sc-if value="{{ sl.src }}" hint-placeholder-val="{{ false }}">
+                            <div role="img" aria-label="{{ tp.title }}" style="{{ sl.bgStyle }}"></div>
+                          </sc-if>
+                          <sc-if value="{{ sl.slot }}" hint-placeholder-val="{{ true }}">
+                            <image-slot id="{{ sl.slot }}" style="min-width:0;width:100%;height:100%;display:block;" placeholder="{{ sl.label }}"></image-slot>
+                          </sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <sc-if value="{{ tp.multi }}" hint-placeholder-val="{{ false }}">
+                    <div>
+                      <button onClick="{{ tp.prev }}" aria-label="Image précédente" style="all:unset; cursor:pointer; position:absolute; left:14px; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); color:#2a2520; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 14px rgba(60,40,20,0.18);" style-hover="background:#fff;">←</button>
+                      <button onClick="{{ tp.next }}" aria-label="Image suivante" style="all:unset; cursor:pointer; position:absolute; right:14px; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); color:#2a2520; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 14px rgba(60,40,20,0.18);" style-hover="background:#fff;">→</button>
+                      <div style="position:absolute; left:0; right:0; bottom:14px; display:flex; justify-content:center; gap:7px;">
+                        <sc-for list="{{ tp.dots }}" as="d" hint-placeholder-count="3">
+                          <button onClick="{{ d.onClick }}" aria-label="Aller à l'image" style="{{ d.style }}"></button>
+                        </sc-for>
+                      </div>
+                      <div style="position:absolute; top:14px; right:14px; font-size:11.5px; font-weight:600; color:#fff; background:rgba(42,37,32,0.7); padding:4px 10px; border-radius:100px;">{{ tp.counter }}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ active.isCv }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <sc-for list="{{ cv.blocks }}" as="block" hint-placeholder-count="2">
+            <div style="margin-bottom:12px;">
+              <div style="display:flex; align-items:center; gap:14px; margin:12px 0 20px;">
+                <div style="font-family:'Newsreader',serif; font-size:24px; font-weight:500;">{{ block.title }}</div>
+                <div style="flex:1; height:1px; background:#e6dccb;"></div>
+              </div>
+              <sc-for list="{{ block.entries }}" as="f" hint-placeholder-count="2">
+                <div style="display:flex; gap:14px; margin-bottom:22px;">
+                  <div style="{{ f.dotStyle }}"></div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
+                      <div style="font-weight:600; font-size:15.5px;">{{ f.title }}</div>
+                      <div style="font-size:12.5px; font-weight:600; color:#b0634a;">{{ f.date }}</div>
+                    </div>
+                    <div style="font-size:13.5px; color:#8a8074; margin-top:2px;">{{ f.place }}</div>
+                    <div style="display:flex; flex-direction:column; gap:5px; margin-top:9px;">
+                      <sc-for list="{{ f.bullets }}" as="b" hint-placeholder-count="2">
+                        <div style="display:flex; gap:10px; font-size:14px; color:#4a423a; line-height:1.55;">
+                          <div style="width:4px; height:4px; border-radius:50%; background:#8a8074; margin-top:9px; flex:0 0 4px;"></div>
+                          <div>{{ b }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+
+          <div style="display:flex; align-items:center; gap:14px; margin:12px 0 20px;">
+            <div style="font-family:'Newsreader',serif; font-size:24px; font-weight:500;">Ce que j'apporte</div>
+            <div style="flex:1; height:1px; background:#e6dccb;"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px; margin-bottom:36px;">
+            <sc-for list="{{ cv.traits }}" as="t" hint-placeholder-count="4">
+              <div style="background:#f3ebdd; border-radius:12px; padding:18px 20px;">
+                <div style="font-weight:600; font-size:14.5px; margin-bottom:6px;">{{ t.title }}</div>
+                <div style="font-size:13.5px; color:#6b6259; line-height:1.55;">{{ t.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:28px;">
+            <sc-for list="{{ cv.lists }}" as="l" hint-placeholder-count="3">
+              <div>
+                <div style="font-family:'Newsreader',serif; font-size:10.5px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase; margin-bottom:12px;">{{ l.title }}</div>
+                <sc-for list="{{ l.items }}" as="li" hint-placeholder-count="4">
+                  <div style="font-size:14px; color:#3a332c; padding:4px 0;">{{ li }}</div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ active.projects }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:22px; margin-top:8px;">
+          <sc-for list="{{ active.projects }}" as="proj" hint-placeholder-count="4">
+            <div>
+              <image-slot id="{{ proj.imgId }}" shape="rounded" radius="12" style="min-width:0;width:100%;height:170px;margin-bottom:12px;display:block;" placeholder="{{ proj.placeholder }}"></image-slot>
+              <div style="font-weight:600; font-size:15px; margin-bottom:4px;">{{ proj.title }}</div>
+              <div style="font-size:13.5px; color:#6b6259; line-height:1.6;">{{ proj.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+
+
+      <sc-if value="{{ active.siblings }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; justify-content:space-between; gap:16px; margin-top:48px; padding-top:22px; border-top:1px solid #e6dccb;">
+          <a href="{{ active.prev.href }}" onClick="{{ active.prev.onClick }}" style="{{ active.prev.style }}">← {{ active.prev.label }}</a>
+          <a href="{{ active.next.href }}" onClick="{{ active.next.onClick }}" style="{{ active.next.style }}">{{ active.next.label }} →</a>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+const S = {
+  'qui-suis-je': {
+    eyebrow: 'Portfolio · BUT GMP', title: 'Qui suis-je ?', isHome: true,
+    paragraphs: [
+      "Je m'appelle Tom Brillard, étudiant en 2ᵉ année de BUT Génie Mécanique et Productique à l'IUT de Nîmes.",
+      "Le BUT GMP forme à la conception, la fabrication et l'optimisation de produits mécaniques : dessiner des pièces en 3D, choisir les procédés de fabrication, organiser la production et améliorer les performances industrielles, à travers cours, travaux pratiques et projets concrets.",
+      "En parcourant les rubriques ci-contre, je vous présente ce que j'ai appris et accompli tout au long de mon cursus."
+    ],
+    cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Portfolio' },
+    image: true, imgId: 'img-qsj', imgPlaceholder: 'Photo — atelier / IUT'
+  },
+  'cv': { eyebrow: 'Curriculum vitae', title: 'Mon CV', isCv: true, paragraphs: [
+    "Étudiant en 2ᵉ année de BUT Génie Mécanique et Productique à l'IUT de Nîmes, je recherche un stage d'avril à juin 2027 en bureau d'études, en production ou en méthodes. Formé à la CAO, à la lecture de plans et à la métrologie, j'ai aussi l'expérience du terrain : cadence, gestion de stock et travail en équipe. Curieux et rigoureux, je souhaite mettre ces acquis au service d'un projet industriel concret."
+  ] },
+  'usinage': {
+    eyebrow: 'Compétences techniques', title: 'Usinage',
+    paragraphs: [
+      "L'usinage est un procédé de fabrication qui consiste à enlever de la matière d'une pièce brute à l'aide d'outils, pour lui donner la forme et les dimensions souhaitées.",
+      "Dans la filière GMP, l'usinage est essentiel car il fait partie des techniques étudiées pour concevoir et produire des pièces mécaniques de précision."
+    ],
+    image: true, imgId: 'img-usinage', imgPlaceholder: 'Photo — pièce usinée',
+    subpagesTitle: 'Procédés', children: ['tournage', 'percage', 'fraisage']
+  },
+  'tournage': {
+    parent: 'usinage', eyebrow: 'Usinage', title: 'Tournage',
+    excerpt: "La pièce tourne, l'outil enlève la matière : arbres, alésages, filetages.",
+    paragraphs: [
+      "Le tournage consiste à faire tourner la pièce sur un axe pendant qu'un outil fixe enlève la matière, pour réaliser des formes cylindriques : arbres, alésages, filetages."
+    ],
+    image: true, imgId: 'img-tournage', imgPlaceholder: 'Photo — pièce tournée'
+  },
+  'percage': {
+    parent: 'usinage', eyebrow: 'Usinage', title: 'Perçage',
+    excerpt: "Des trous cylindriques précis à l'aide d'un foret en rotation.",
+    paragraphs: [
+      "Le perçage permet de réaliser des trous cylindriques précis dans une pièce à l'aide d'un foret en rotation — une opération de base pour l'assemblage."
+    ],
+    image: true, imgId: 'img-percage', imgPlaceholder: 'Photo — perçage'
+  },
+  'fraisage': {
+    parent: 'usinage', eyebrow: 'Usinage', title: 'Fraisage',
+    excerpt: "Surfaces planes, poches et profils complexes avec un outil multi-dents.",
+    paragraphs: [
+      "Le fraisage utilise un outil rotatif à plusieurs dents pour usiner des surfaces planes, des poches ou des profils complexes sur une pièce fixe."
+    ],
+    image: true, imgId: 'img-fraisage', imgPlaceholder: 'Photo — pièce fraisée'
+  },
+  'soudage': {
+    eyebrow: 'Compétences techniques', title: 'Soudage',
+    paragraphs: ["La matière Soudage permet d'apprendre les bases des procédés d'assemblage métalliques, comme le soudage à l'arc ou au MIG/MAG, ainsi que les règles de sécurité et de préparation des joints. En GMP, elle relie la conception aux contraintes réelles d'assemblage, et permet de comprendre comment réaliser des structures fiables, résistantes et adaptées aux besoins industriels."],
+    image: true, imgId: 'img-soudage', imgPlaceholder: 'Photo — TP soudage',
+    tps: [
+      { title: "Soudage à l'électrode enrobée", date: '13/03/2026', text: "Pendant ces travaux pratiques, nous avons appris à souder correctement avec une électrode enrobée : essai sur plaque, puis soudure de deux plaques côte à côte ou avec un angle (ici 90°). Ce TP de 4 heures m'a permis de largement maîtriser cette compétence, utile dans différents aspects de l'industrie." },
+      { title: 'Soudage au chalumeau', date: '27/03/2026', text: "Lors de ces travaux pratiques, j'ai appris à souder au chalumeau, de la soudure simple jusqu'à l'ajout de métal d'apport. J'ai également soudé deux plaques côte à côte, avec ici plus de difficulté. Ce TP m'a permis d'acquérir des compétences de base utiles dans certains aspects de l'industrie." }
+    ]
+  },
+  'fonderie': {
+    eyebrow: 'Compétences techniques', title: 'Fonderie',
+    paragraphs: ["Le projet Fonderie consiste à concevoir et réaliser une pièce métallique par moulage, en préparant le modèle, le moule et en effectuant la coulée. Il permet d'apprendre les bases de la transformation des métaux, essentielles en GMP pour comprendre les procédés industriels, la conception de pièces et l'optimisation des matériaux."],
+    image: true, imgId: 'img-fonderie', imgPlaceholder: 'Photo — moule / coulée',
+    tps: [
+      { title: 'Moulage non-permanent au sable', date: '09/12/2025', text: "Lors de ces travaux pratiques, nous avons appris à fondre une pièce à partir de métal en fusion, avec un moule destructible en sable composé d'argile, de silice et d'additifs. Nous avons formé un canal de coulée, des évents et des masselottes, puis créé un moule sur SolidWorks." }
+    ]
+  },
+  'sdm': { eyebrow: 'Compétences techniques', title: 'SDM — Sciences des Matériaux', paragraphs: ["La SDM étudie la structure, les propriétés et le comportement des matériaux métalliques et composites. En GMP, elle permet de choisir le bon matériau selon les contraintes mécaniques, thermiques ou environnementales d'une pièce."], image: true, imgId: 'img-sdm', imgPlaceholder: 'Photo — essais matériaux' },
+  'metrologie': { eyebrow: 'Compétences techniques', title: 'Métrologie', paragraphs: ["La métrologie regroupe les techniques de mesure et de contrôle dimensionnel des pièces. Elle garantit la conformité d'une production aux tolérances définies, une compétence clé pour tout technicien en mécanique."], image: true, imgId: 'img-metro', imgPlaceholder: 'Photo — contrôle dimensionnel' },
+  'bureau-etude': { eyebrow: 'Compétences techniques', title: "Bureau d'étude", paragraphs: ["Le bureau d'étude est le lieu de conception des pièces et systèmes mécaniques : modélisation 3D, mise en plan, cotation fonctionnelle et choix technologiques, avant leur fabrication."], image: true, imgId: 'img-be', imgPlaceholder: 'Photo — modélisation SolidWorks' },
+  'programmation': { eyebrow: 'Compétences techniques', title: 'Programmation', paragraphs: ["La programmation, notamment sur machines à commande numérique (CN), permet de traduire un plan de fabrication en instructions machine pour usiner automatiquement une pièce avec précision et répétabilité."], image: true, imgId: 'img-prog', imgPlaceholder: 'Photo — pupitre CN' },
+  'methode': { eyebrow: 'Compétences techniques', title: 'Méthode', paragraphs: ["Les méthodes industrielles définissent la gamme de fabrication d'une pièce : ordre des opérations, temps, outillages et postes de travail, pour organiser une production efficace."], image: true, imgId: 'img-methode', imgPlaceholder: 'Photo — gamme de fabrication' },
+  'cnd': { eyebrow: 'Compétences techniques', title: 'CND — Contrôle Non Destructif', paragraphs: ["Le contrôle non destructif permet de détecter des défauts internes ou de surface sur une pièce (fissures, porosités) sans l'endommager, par exemple par ressuage ou ultrasons."], image: true, imgId: 'img-cnd', imgPlaceholder: 'Photo — contrôle par ressuage' },
+  'sae': {
+    eyebrow: 'Parcours & projets', title: 'SAE',
+    paragraphs: ["Les Situations d'Apprentissage et d'Évaluation (SAE) sont des projets encadrés qui mettent en pratique, sur un cas concret, les compétences acquises en cours."],
+    subpagesTitle: 'Projets SAE', children: ['sae1', 'sae2']
+  },
+  'sae1': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°1',
+    excerpt: "Premier projet encadré : conception, fabrication et travail en équipe.",
+    paragraphs: ["Premier projet encadré du cursus, mobilisant conception, fabrication et travail en équipe autour d'un cas concret."],
+    image: true, imgId: 'img-sae1', imgPlaceholder: 'Visuel — SAE n°1'
+  },
+  'sae2': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°2',
+    excerpt: "Second projet, plus autonome, approfondissant conception et production.",
+    paragraphs: ["Second projet encadré, avec davantage d'autonomie, approfondissant les compétences de conception et de production."],
+    image: true, imgId: 'img-sae2', imgPlaceholder: 'Visuel — SAE n°2'
+  },
+  'ppp': { eyebrow: 'Parcours & projets', title: 'PPP — Projet Personnel et Professionnel', paragraphs: ["Le PPP accompagne la construction du projet professionnel de l'étudiant : découverte des métiers, recherches de stage et d'alternance, réflexion sur ses compétences et son orientation."] },
+  'projets': {
+    eyebrow: 'Parcours & projets', title: 'Projets',
+    paragraphs: ["Dans cette section, je présente l'ensemble des projets réalisés au cours de ma formation en BUT GMP, ainsi que plusieurs projets personnels. Qu'ils soient académiques ou personnels, tous ont été menés avec une approche professionnelle et m'ont permis de renforcer mes compétences en conception, fabrication, analyse technique et gestion de projet."],
+    projects: [1, 2, 3, 4].map(n => ({ title: 'Projet ' + n, text: 'Description à venir.', imgId: 'proj-' + n, placeholder: 'Visuel projet ' + n }))
+  },
+  'outils': { eyebrow: 'Parcours & projets', title: 'Outils Numériques', paragraphs: ["Cette rubrique regroupe les outils numériques utilisés au cours de la formation : CAO (SolidWorks), suite bureautique (Word, Excel), et logiciels de programmation ou de gestion de production."] },
+  'stage': {
+    eyebrow: 'Parcours & projets', title: 'Stage',
+    paragraphs: ["Je recherche un stage conventionné (convention IUT de Nîmes) d'avril à juin 2027, en bureau d'études, en production ou en méthodes. Mobile, titulaire du permis B."],
+    cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Stage BUT2 GMP' }
+  }
+};
+
+const TP_PAGES = ['tournage', 'percage', 'fraisage', 'soudage', 'fonderie', 'sdm', 'metrologie', 'bureau-etude', 'programmation', 'methode', 'cnd', 'sae1', 'sae2'];
+
+const NAV = [
+  { name: 'Profil', items: ['qui-suis-je', 'cv'] },
+  { name: 'Compétences techniques', items: ['usinage', 'soudage', 'fonderie', 'sdm', 'metrologie', 'bureau-etude', 'programmation', 'methode', 'cnd'] },
+  { name: 'Parcours & projets', items: ['sae', 'ppp', 'projets', 'outils', 'stage'] }
+];
+
+const LABELS = {
+  'qui-suis-je': 'Qui suis-je ?', 'cv': 'Mon CV', 'sdm': 'SDM', 'cnd': 'CND', 'ppp': 'PPP'
+};
+const label = id => LABELS[id] || S[id].title;
+
+const DOT = (c) => ({ width: '7px', height: '7px', borderRadius: '50%', background: c, marginTop: '8px', flex: '0 0 7px' });
+
+const CV = {
+  blocks: [
+    { title: 'Formation', entries: [
+      { title: 'BUT Génie Mécanique et Productique — 2ᵉ année', date: '2025 – 2027', place: 'IUT de Nîmes', dotStyle: DOT('#c4553d'),
+        bullets: ['Lecture de plans, cotation et métrologie', 'CAO SolidWorks — modélisation 3D et assemblages', 'Usinage, procédés de fabrication et organisation de production'] },
+      { title: 'Baccalauréat général — Mention assez bien', date: '2025', place: 'Lycée Dhuoda, Nîmes', dotStyle: DOT('#d9b8a8'),
+        bullets: ['Spécialités : Mathématiques · Physique-Chimie', 'PSC1 — Premiers Secours Civiques niveau 1'] }
+    ] },
+    { title: 'Expérience', entries: [
+      { title: 'Équipier polyvalent · Cuisine', date: '10 juil. – 25 août 2026', place: 'McDonald\'s — Saint-Geniès-de-Malgoirès (30)', dotStyle: DOT('#c4553d'),
+        bullets: ['Tous les postes de production : grill, friture, garniture, emballage', 'Cadence soutenue en pleine saison, respect strict des normes d\'hygiène', 'Coordination permanente avec l\'équipe et le manager de service'] },
+      { title: 'Conseiller vendeur', date: '9 juil. – 30 août 2025', place: 'Bricomarché — Nîmes Courbessac (30)', dotStyle: DOT('#c4553d'),
+        bullets: ['Conseil client sur les rayons jardinage, bâti, piscine, décoration et droguerie', 'Mise en rayon, réception et entrée des stocks', 'Tenue, rangement et bonne présentation des rayons'] },
+      { title: 'Employé polyvalent · Assistant informatique', date: 'Juillet 2025', place: 'Maison Filière — Avignon', dotStyle: DOT('#d9b8a8'),
+        bullets: ['Mise en place d\'une gestion de stock informatisée (~100 produits de négoce)', 'Résolution de pannes et aide technique (télévision, onduleur, imprimante étiquettes…)', 'Organisation et suivi du matériel'] }
+    ] }
+  ],
+  traits: [
+    { title: 'Bases techniques', text: 'CAO SolidWorks, plans, métrologie et procédés de fabrication.' },
+    { title: 'Expérience terrain', text: 'Rythme de production, stocks et contraintes d\'hygiène et de sécurité.' },
+    { title: 'Rigoureux', text: 'Une formation exigeante qui m\'a appris méthode et persévérance.' },
+    { title: 'Secouriste', text: 'PSC1 certifié, sensibilisé à la sécurité en atelier.' }
+  ],
+  lists: [
+    { title: 'Technique', items: ['SolidWorks (CAO 3D)', 'Lecture de plans & cotation', 'Métrologie & contrôle', 'Usinage & fabrication', 'Gestion de stock', 'Word · Excel'] },
+    { title: 'Compétences clés', items: ['Rigueur & méthode', 'Respect des consignes', 'Travail en équipe', 'Organisation', 'Apprentissage rapide', 'Ponctualité & fiabilité'] },
+    { title: 'Langues & intérêts', items: ['Anglais — B1, certifié Cambridge', 'Espagnol — notions', 'Mécanique auto / moto', 'Bricolage', 'Sport'] }
+  ]
+};
+
+class Component extends DCLogic {
+  state = { active: 'qui-suis-je' };
+
+  componentDidMount() {
+    this.applyHash = () => {
+      const h = window.location.hash.replace('#', '');
+      if (h && S[h]) this.setState({ active: h });
+    };
+    this.applyHash();
+    window.addEventListener('hashchange', this.applyHash);
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.applyHash); }
+
+  go(id) {
+    return (e) => {
+      if (e) e.preventDefault();
+      if (window.location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+      this.setState({ active: id });
+      const m = document.querySelector('main'); if (m) m.scrollTop = 0;
+    };
+  }
+
+  renderVals() {
+    const cur = this.state.active;
+    const curParent = S[cur].parent;
+    const closedG = this.state.closedGroups || {};
+    const openI = this.state.openItems || {};
+    const chev = (open) => ({ display: 'inline-block', transition: 'transform .2s', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)', fontSize: '13px', lineHeight: 1, letterSpacing: 0 });
+    const nav = NAV.map(g => ({
+      name: g.name,
+      open: !closedG[g.name],
+      chevronStyle: chev(!closedG[g.name]),
+      toggle: () => this.setState(s => ({ closedGroups: { ...(s.closedGroups || {}), [g.name]: !(s.closedGroups || {})[g.name] } })),
+      items: g.items.map(id => {
+        const on = cur === id;
+        const open = openI[id] ?? (on || curParent === id);
+        return {
+          open, chevronStyle: chev(open),
+          toggle: (e) => { e && e.preventDefault(); this.setState(s => ({ openItems: { ...(s.openItems || {}), [id]: !open } })); },
+          label: label(id), href: '#' + id,
+          onClick: (e) => { this.go(id)(e); this.setState(s => ({ openItems: { ...(s.openItems || {}), [id]: true } })); },
+          linkStyle: { display: 'block', flex: 1, minWidth: 0, padding: '5px 0', fontSize: '13.5px', textDecoration: 'none', color: on ? '#b0634a' : '#3a332c', fontWeight: on ? 600 : 400 },
+          children: S[id].children ? S[id].children.map(cid => {
+            const con = cur === cid;
+            return {
+              label: S[cid].title, href: '#' + cid, onClick: this.go(cid),
+              linkStyle: { display: 'block', padding: '4px 0 4px 14px', marginLeft: '-1px', borderLeft: con ? '2px solid #b0634a' : '2px solid transparent', fontSize: '13px', textDecoration: 'none', color: con ? '#b0634a' : '#3a332c', fontWeight: con ? 600 : 400 }
+            };
+          }) : null
+        };
+      })
+    }));
+
+    const a = { ...S[cur] };
+    if (a.children) a.subpages = a.children.map(cid => ({ title: S[cid].title, excerpt: S[cid].excerpt, href: '#' + cid, onClick: this.go(cid) }));
+    else a.subpages = null;
+    if (a.parent) {
+      a.parentLabel = S[a.parent].title; a.parentHref = '#' + a.parent;
+      const sibs = S[a.parent].children, i = sibs.indexOf(cur);
+      const linkStyle = (vis) => ({ fontSize: '13.5px', fontWeight: 600, color: '#b0634a', textDecoration: 'none', visibility: vis ? 'visible' : 'hidden' });
+      const p = sibs[i - 1], n = sibs[i + 1];
+      a.siblings = true;
+      a.prev = { label: p ? S[p].title : '', href: '#' + (p || cur), onClick: p ? this.go(p) : null, style: linkStyle(!!p) };
+      a.next = { label: n ? S[n].title : '', href: '#' + (n || cur), onClick: n ? this.go(n) : null, style: linkStyle(!!n) };
+    }
+    if (TP_PAGES.includes(cur)) {
+      const list = (a.tps && a.tps.length) ? a.tps : [{ title: 'Titre du TP', date: 'JJ/MM/AAAA', text: 'Texte du TP à venir : objectif, déroulement, ce que j\'ai appris.' }];
+      const car = this.state.car || {};
+      a.tpCount = list.length + (list.length > 1 ? ' TP' : ' TP');
+      a.tps = list.map((tp, i) => {
+        const key = cur + '-' + i;
+        const imgs = (tp.images && tp.images.length) ? tp.images : null;
+        const slides = imgs ? imgs.map(src => ({ src, slot: null, bgStyle: { width: '100%', height: '100%', backgroundImage: 'url("' + src + '")', backgroundSize: 'cover', backgroundPosition: 'center' } })) : [1, 2, 3].map(n => ({ src: null, slot: 'tp-' + key + '-' + n, label: 'Photo ' + n + ' du TP' }));
+        const n = slides.length, idx = Math.min(car[key] || 0, n - 1);
+        const set = (v) => this.setState(s => ({ car: { ...(s.car || {}), [key]: (v + n) % n } }));
+        return {
+          num: String(i + 1).padStart(2, '0'), title: tp.title, date: tp.date,
+          text: Array.isArray(tp.text) ? tp.text : [tp.text],
+          slides, multi: n > 1, counter: (idx + 1) + ' / ' + n,
+          trackStyle: { display: 'flex', transform: 'translateX(-' + (idx * 100) + '%)', transition: 'transform .45s cubic-bezier(.4,0,.2,1)' },
+          prev: () => set(idx - 1), next: () => set(idx + 1),
+          dots: slides.map((_, j) => ({ onClick: () => set(j), style: { all: 'unset', cursor: 'pointer', width: j === idx ? '20px' : '7px', height: '7px', borderRadius: '100px', background: j === idx ? '#fff' : 'rgba(255,255,255,0.55)', transition: 'all .2s' } }))
+        };
+      });
+    }
+
+    return { nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
+  }
+}
+
+</script>
+</body>
+</html>
