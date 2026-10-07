@@ -87,7 +87,7 @@
         </div>
         <sc-if value="{{ active.isHome }}" hint-placeholder-val="{{ false }}">
           <div style="flex:0 0 170px; width:170px; height:170px; border-radius:50%; padding:8px; background:#fff; box-shadow:0 0 0 10px #efe6d6, 0 14px 30px rgba(80,55,30,0.15);">
-            <image-slot id="tb-avatar" shape="circle" style="min-width:0;width:100%;height:100%;" placeholder="Photo"></image-slot>
+            <div role="img" aria-label="Tom Brillard" style="{{ avatarStyle }}"></div>
           </div>
         </sc-if>
       </div>
@@ -102,7 +102,10 @@
         <a href="{{ active.cta.href }}" style="display:inline-block; background:#b0634a; color:#fff; font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; text-decoration:none; margin:8px 0 28px;">{{ active.cta.label }}</a>
       </sc-if>
 
-      <sc-if value="{{ active.image }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ active.introStyle }}" hint-placeholder-val="{{ false }}">
+        <div role="img" aria-label="{{ active.title }}" style="{{ active.introStyle }}"></div>
+      </sc-if>
+      <sc-if value="{{ active.slotOnly }}" hint-placeholder-val="{{ false }}">
         <image-slot id="{{ active.imgId }}" shape="rounded" radius="14" style="min-width:0;width:100%;height:340px;margin:12px 0 36px;display:block;" placeholder="{{ active.imgPlaceholder }}"></image-slot>
       </sc-if>
 
@@ -264,6 +267,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 
+const IMG = /Portfolio/.test(decodeURIComponent(location.pathname)) ? 'site/images/' : 'images/';
 const S = {
   'qui-suis-je': {
     eyebrow: 'Portfolio · BUT GMP', title: 'Qui suis-je ?', isHome: true,
@@ -293,7 +297,8 @@ const S = {
     paragraphs: [
       "Le tournage consiste à faire tourner la pièce sur un axe pendant qu'un outil fixe enlève la matière, pour réaliser des formes cylindriques : arbres, alésages, filetages."
     ],
-    image: true, imgId: 'img-tournage', imgPlaceholder: 'Photo — pièce tournée'
+    image: true, imgId: 'img-tournage', intro: IMG + 'usinage/tournage/intro.jpg',
+    tps: [{ title: "TP Tournage", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'usinage/tournage/1.jpg', IMG + 'usinage/tournage/2.jpg', IMG + 'usinage/tournage/3.jpg', IMG + 'usinage/tournage/4.jpg', IMG + 'usinage/tournage/5.jpg', IMG + 'usinage/tournage/6.jpg'] }]
   },
   'percage': {
     parent: 'usinage', eyebrow: 'Usinage', title: 'Perçage',
@@ -301,7 +306,8 @@ const S = {
     paragraphs: [
       "Le perçage permet de réaliser des trous cylindriques précis dans une pièce à l'aide d'un foret en rotation — une opération de base pour l'assemblage."
     ],
-    image: true, imgId: 'img-percage', imgPlaceholder: 'Photo — perçage'
+    image: true, imgId: 'img-percage', intro: IMG + 'usinage/percage/intro.jpg',
+    tps: [{ title: "TP Perçage", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'usinage/percage/1.jpg', IMG + 'usinage/percage/2.jpg', IMG + 'usinage/percage/3.jpg', IMG + 'usinage/percage/4.jpg', IMG + 'usinage/percage/5.jpg', IMG + 'usinage/percage/6.jpg', IMG + 'usinage/percage/7.jpg'] }]
   },
   'fraisage': {
     parent: 'usinage', eyebrow: 'Usinage', title: 'Fraisage',
@@ -328,8 +334,15 @@ const S = {
       { title: 'Moulage non-permanent au sable', date: '09/12/2025', text: "Lors de ces travaux pratiques, nous avons appris à fondre une pièce à partir de métal en fusion, avec un moule destructible en sable composé d'argile, de silice et d'additifs. Nous avons formé un canal de coulée, des évents et des masselottes, puis créé un moule sur SolidWorks." }
     ]
   },
-  'sdm': { eyebrow: 'Compétences techniques', title: 'SDM — Sciences des Matériaux', paragraphs: ["La SDM étudie la structure, les propriétés et le comportement des matériaux métalliques et composites. En GMP, elle permet de choisir le bon matériau selon les contraintes mécaniques, thermiques ou environnementales d'une pièce."], image: true, imgId: 'img-sdm', imgPlaceholder: 'Photo — essais matériaux' },
-  'metrologie': { eyebrow: 'Compétences techniques', title: 'Métrologie', paragraphs: ["La métrologie regroupe les techniques de mesure et de contrôle dimensionnel des pièces. Elle garantit la conformité d'une production aux tolérances définies, une compétence clé pour tout technicien en mécanique."], image: true, imgId: 'img-metro', imgPlaceholder: 'Photo — contrôle dimensionnel' },
+  'sdm': { eyebrow: 'Compétences techniques', title: 'SDM — Sciences des Matériaux', paragraphs: ["La SDM étudie la structure, les propriétés et le comportement des matériaux métalliques et composites. En GMP, elle permet de choisir le bon matériau selon les contraintes mécaniques, thermiques ou environnementales d'une pièce."], image: true, imgId: 'img-sdm', intro: IMG + 'sdm/1.jpg',
+    tps: [{ title: "TP Sciences des matériaux", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'sdm/2.jpg', IMG + 'sdm/3.jpg', IMG + 'sdm/4.jpg', IMG + 'sdm/5.jpg', IMG + 'sdm/6.jpg', IMG + 'sdm/7.jpg', IMG + 'sdm/8.jpg'] }] },
+  'metrologie': { eyebrow: 'Compétences techniques', title: 'Métrologie', paragraphs: ["La métrologie regroupe les techniques de mesure et de contrôle dimensionnel des pièces. Elle garantit la conformité d'une production aux tolérances définies, une compétence clé pour tout technicien en mécanique."], image: true, imgId: 'img-metro', intro: IMG + 'metrologie/tp1-1.jpg',
+    tps: [
+      { title: "Contrôles dimensionnels", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp1-1.jpg', IMG + 'metrologie/tp1-2.jpg'] },
+      { title: "Contrôle de circularité", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp2-1.jpg', IMG + 'metrologie/tp2-2.jpg', IMG + 'metrologie/tp2-3.jpg'] },
+      { title: "Contrôle sur colonne de mesure", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp3-1.jpg', IMG + 'metrologie/tp3-2.jpg', IMG + 'metrologie/tp3-3.jpg'] },
+      { title: "Contrôle d'états de surface", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp4-1.jpg'] }
+    ] },
   'bureau-etude': { eyebrow: 'Compétences techniques', title: "Bureau d'étude", paragraphs: ["Le bureau d'étude est le lieu de conception des pièces et systèmes mécaniques : modélisation 3D, mise en plan, cotation fonctionnelle et choix technologiques, avant leur fabrication."], image: true, imgId: 'img-be', imgPlaceholder: 'Photo — modélisation SolidWorks' },
   'programmation': { eyebrow: 'Compétences techniques', title: 'Programmation', paragraphs: ["La programmation, notamment sur machines à commande numérique (CN), permet de traduire un plan de fabrication en instructions machine pour usiner automatiquement une pièce avec précision et répétabilité."], image: true, imgId: 'img-prog', imgPlaceholder: 'Photo — pupitre CN' },
   'methode': { eyebrow: 'Compétences techniques', title: 'Méthode', paragraphs: ["Les méthodes industrielles définissent la gamme de fabrication d'une pièce : ordre des opérations, temps, outillages et postes de travail, pour organiser une production efficace."], image: true, imgId: 'img-methode', imgPlaceholder: 'Photo — gamme de fabrication' },
@@ -337,35 +350,44 @@ const S = {
   'sae': {
     eyebrow: 'Parcours & projets', title: 'SAE',
     paragraphs: ["Les Situations d'Apprentissage et d'Évaluation (SAE) sont des projets encadrés qui mettent en pratique, sur un cas concret, les compétences acquises en cours."],
-    subpagesTitle: 'Projets SAE', children: ['sae1', 'sae2']
+    subpagesTitle: 'Projets SAE', children: ['sae11', 'sae12', 'sae13']
   },
-  'sae1': {
-    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°1',
-    excerpt: "Premier projet encadré : conception, fabrication et travail en équipe.",
-    paragraphs: ["Premier projet encadré du cursus, mobilisant conception, fabrication et travail en équipe autour d'un cas concret."],
-    image: true, imgId: 'img-sae1', imgPlaceholder: 'Visuel — SAE n°1'
+  'sae11': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE 1.1',
+    excerpt: "Premier projet encadré du cursus.",
+    paragraphs: ["Projet encadré du cursus mettant en pratique les compétences acquises en cours."],
+    intro: IMG + 'sae/sae11-1.jpg', imgId: 'img-sae11',
+    tps: [{ title: "SAE 1.1", date: "JJ/MM/AAAA", text: "Texte à venir : sujet, rôle, livrables et résultat.", images: [IMG + 'sae/sae11-1.jpg'] }]
   },
-  'sae2': {
-    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°2',
-    excerpt: "Second projet, plus autonome, approfondissant conception et production.",
-    paragraphs: ["Second projet encadré, avec davantage d'autonomie, approfondissant les compétences de conception et de production."],
-    image: true, imgId: 'img-sae2', imgPlaceholder: 'Visuel — SAE n°2'
+  'sae12': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE 1.2',
+    excerpt: "Deuxième projet encadré.",
+    paragraphs: ["Projet encadré du cursus mettant en pratique les compétences acquises en cours."],
+    intro: IMG + 'sae/sae12-1.jpg', imgId: 'img-sae12',
+    tps: [{ title: "SAE 1.2", date: "JJ/MM/AAAA", text: "Texte à venir : sujet, rôle, livrables et résultat.", images: [IMG + 'sae/sae12-1.jpg'] }]
   },
-  'ppp': { eyebrow: 'Parcours & projets', title: 'PPP — Projet Personnel et Professionnel', paragraphs: ["Le PPP accompagne la construction du projet professionnel de l'étudiant : découverte des métiers, recherches de stage et d'alternance, réflexion sur ses compétences et son orientation."] },
+  'sae13': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE 1.3',
+    excerpt: "Troisième projet encadré.",
+    paragraphs: ["Projet encadré du cursus mettant en pratique les compétences acquises en cours."],
+    intro: IMG + 'sae/sae13-1.jpg', imgId: 'img-sae13',
+    tps: [{ title: "SAE 1.3", date: "JJ/MM/AAAA", text: "Texte à venir : sujet, rôle, livrables et résultat.", images: [IMG + 'sae/sae13-1.jpg'] }]
+  },
+  'ppp': { eyebrow: 'Parcours & projets', title: 'PPP — Projet Personnel et Professionnel', intro: IMG + 'ppp/intro.jpg', paragraphs: ["Le PPP accompagne la construction du projet professionnel de l'étudiant : découverte des métiers, recherches de stage et d'alternance, réflexion sur ses compétences et son orientation."] },
   'projets': {
-    eyebrow: 'Parcours & projets', title: 'Projets',
+    eyebrow: 'Parcours & projets', title: 'Projets', intro: IMG + 'projets/intro.jpg',
     paragraphs: ["Dans cette section, je présente l'ensemble des projets réalisés au cours de ma formation en BUT GMP, ainsi que plusieurs projets personnels. Qu'ils soient académiques ou personnels, tous ont été menés avec une approche professionnelle et m'ont permis de renforcer mes compétences en conception, fabrication, analyse technique et gestion de projet."],
     projects: [1, 2, 3, 4].map(n => ({ title: 'Projet ' + n, text: 'Description à venir.', imgId: 'proj-' + n, placeholder: 'Visuel projet ' + n }))
   },
-  'outils': { eyebrow: 'Parcours & projets', title: 'Outils Numériques', paragraphs: ["Cette rubrique regroupe les outils numériques utilisés au cours de la formation : CAO (SolidWorks), suite bureautique (Word, Excel), et logiciels de programmation ou de gestion de production."] },
+  'outils': { eyebrow: 'Parcours & projets', title: 'Outils Numériques', intro: IMG + 'outils/1.jpg', paragraphs: ["Cette rubrique regroupe les outils numériques utilisés au cours de la formation : CAO (SolidWorks), suite bureautique (Word, Excel), et logiciels de programmation ou de gestion de production."] },
   'stage': {
-    eyebrow: 'Parcours & projets', title: 'Stage',
+    eyebrow: 'Parcours & projets', title: 'Stage', intro: IMG + 'stage/intro.jpg',
     paragraphs: ["Je recherche un stage conventionné (convention IUT de Nîmes) d'avril à juin 2027, en bureau d'études, en production ou en méthodes. Mobile, titulaire du permis B."],
     cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Stage BUT2 GMP' }
   }
 };
 
-const TP_PAGES = ['tournage', 'percage', 'fraisage', 'soudage', 'fonderie', 'sdm', 'metrologie', 'bureau-etude', 'programmation', 'methode', 'cnd', 'sae1', 'sae2'];
+const TP_PAGES = ['tournage', 'percage', 'fraisage', 'soudage', 'fonderie', 'sdm', 'metrologie', 'bureau-etude', 'programmation', 'methode', 'cnd', 'sae11', 'sae12', 'sae13'];
 
 const NAV = [
   { name: 'Profil', items: ['qui-suis-je', 'cv'] },
@@ -475,6 +497,8 @@ class Component extends DCLogic {
       a.prev = { label: p ? S[p].title : '', href: '#' + (p || cur), onClick: p ? this.go(p) : null, style: linkStyle(!!p) };
       a.next = { label: n ? S[n].title : '', href: '#' + (n || cur), onClick: n ? this.go(n) : null, style: linkStyle(!!n) };
     }
+    a.introStyle = a.intro ? { width: '100%', height: '360px', borderRadius: '14px', margin: '12px 0 36px', backgroundImage: 'url("' + a.intro + '")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#f3ebdd' } : null;
+    a.slotOnly = a.image && !a.intro;
     if (TP_PAGES.includes(cur)) {
       const list = (a.tps && a.tps.length) ? a.tps : [{ title: 'Titre du TP', date: 'JJ/MM/AAAA', text: 'Texte du TP à venir : objectif, déroulement, ce que j\'ai appris.' }];
       const car = this.state.car || {};
@@ -496,7 +520,8 @@ class Component extends DCLogic {
       });
     }
 
-    return { nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
+    const avatarStyle = { width: '100%', height: '100%', borderRadius: '50%', backgroundImage: 'url("' + IMG + 'profil/photo.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' };
+    return { avatarStyle, nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
   }
 }
 
