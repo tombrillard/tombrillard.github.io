@@ -9,6 +9,8 @@
 <x-dc>
 
 <helmet>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/logo/favicon-32.png">
+  <link rel="apple-touch-icon" href="images/logo/favicon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -19,16 +21,43 @@
     ::selection { background: #f0d3c6; }
     .tb-scroll::-webkit-scrollbar { width: 8px; }
     .tb-scroll::-webkit-scrollbar-thumb { background: #ddd0b8; border-radius: 8px; }
+    [data-m="topbar"], [data-m="scrim"] { display: none; }
+    @media (max-width: 860px) {
+      [data-m="root"] { display: block !important; }
+      [data-m="topbar"] { display: flex !important; }
+      [data-m="aside"] { position: fixed !important; top: 0 !important; left: 0; bottom: 0; z-index: 60; width: 86vw !important; max-width: 340px; height: 100dvh !important; padding: 28px 24px !important; transform: translateX(-102%); transition: transform .28s ease; box-shadow: 0 0 40px rgba(40,25,10,0.25); }
+      [data-m="aside"][data-open="1"] { transform: none; }
+      [data-m="scrim"][data-open="1"] { display: block !important; }
+      [data-m="main"] { height: auto !important; overflow: visible !important; padding: 26px 20px 64px !important; }
+      [data-m="head"] { flex-direction: column-reverse; align-items: flex-start !important; gap: 22px !important; }
+      [data-m="avatar"] { flex: 0 0 auto !important; width: 112px !important; height: 112px !important; padding: 5px !important; box-shadow: 0 0 0 6px #efe6d6, 0 10px 22px rgba(80,55,30,0.15) !important; }
+      [data-m="h1"] { font-size: 38px !important; }
+      [data-m="p"] { font-size: 16px !important; line-height: 1.7 !important; }
+      [data-m="intro"] { height: 58vw !important; min-height: 220px; margin: 8px 0 28px !important; }
+      [data-m="slide"] { height: 68vw !important; min-height: 240px; }
+      [data-m="tpbody"] { padding: 20px 18px 14px !important; }
+      [data-m="tph2"] { font-size: 22px !important; }
+      [data-m="tphead"] { font-size: 26px !important; }
+      [data-m="arrow"] { width: 36px !important; height: 36px !important; }
+      [data-m="sibs"] { flex-direction: column; gap: 12px !important; }
+      [data-m="sibs"] a { max-width: 100% !important; }
+    }
   </style>
   <script src="./image-slot.js"></script>
 </helmet>
 
-<div style="display:flex; width:100%; min-height:100vh; font-family:'Work Sans',sans-serif; color:#2a2520; background:#faf6ef;">
+<div data-m="root" style="display:flex; width:100%; min-height:100vh; font-family:'Work Sans',sans-serif; color:#2a2520; background:#faf6ef;">
 
-  <aside class="tb-scroll" style="width:320px; flex:0 0 320px; background:#efe6d6; height:100vh; overflow-y:auto; overflow-x:hidden; padding:40px 30px; position:sticky; top:0;">
+  <div data-m="topbar" style="display:none; position:sticky; top:0; z-index:40; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px; background:#efe6d6; border-bottom:1px solid #e0d3bd;">
+    <a href="#qui-suis-je" onClick="{{ goHome }}" style="display:block; text-decoration:none;"><img src="images/logo/signature.png" alt="Tom Brillard" style="display:block; height:34px; width:auto;"></a>
+    <button onClick="{{ toggleMenu }}" aria-label="Menu" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:8px; height:44px; padding:0 16px; border-radius:100px; background:#2a2520; color:#faf6ef; font-size:13px; font-weight:600;">Menu <span style="font-size:16px; line-height:1;">≡</span></button>
+  </div>
+  <div data-m="scrim" data-open="{{ menuFlag }}" onClick="{{ closeMenu }}" style="display:none; position:fixed; inset:0; z-index:55; background:rgba(42,37,32,0.45);"></div>
+
+  <aside class="tb-scroll" data-m="aside" data-open="{{ menuFlag }}" style="width:320px; flex:0 0 320px; background:#efe6d6; height:100vh; overflow-y:auto; overflow-x:hidden; padding:40px 30px; position:sticky; top:0;">
     <a href="#qui-suis-je" onClick="{{ goHome }}" style="text-decoration:none; color:#2a2520; display:block;">
-      <div style="font-family:'Newsreader',serif; font-size:10.5px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-bottom:10px;">Portfolio</div>
-      <div style="font-family:'Newsreader',serif; font-size:34px; line-height:1; font-weight:500; letter-spacing:-0.01em;">Tom<br>Brillard</div>
+      <img src="images/logo/signature.png" alt="Tom Brillard" style="display:block; width:100%; max-width:250px; height:auto;">
+      <div style="font-family:'Newsreader',serif; font-size:10.5px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-top:14px;">Portfolio · BUT GMP</div>
     </a>
     <div style="display:inline-block; background:#f6d9cd; color:#b0634a; font-size:10px; letter-spacing:0.06em; font-weight:600; padding:5px 11px; border-radius:100px; margin:16px 0 22px; white-space:nowrap;">STAGE BUT2 · AVRIL – JUIN 2027</div>
 
@@ -71,22 +100,23 @@
         </sc-if>
       </div>
     </sc-for>
+    <img src="images/logo/cachet.png" alt="" style="display:block; width:96px; height:96px; margin:36px 0 0; opacity:0.92;">
   </aside>
 
-  <main class="tb-scroll" style="flex:1; min-width:0; height:100vh; overflow-y:auto; overflow-x:hidden; padding:64px clamp(40px, 5vw, 110px) 96px;">
+  <main class="tb-scroll" data-m="main" style="flex:1; min-width:0; height:100vh; overflow-y:auto; overflow-x:hidden; padding:64px clamp(40px, 5vw, 110px) 96px;">
     <div style="width:100%; max-width:1600px; margin:0 auto;">
 
       <sc-if value="{{ active.parentLabel }}" hint-placeholder-val="{{ false }}">
         <a href="{{ active.parentHref }}" onClick="{{ goParent }}" style="display:inline-flex; gap:6px; font-size:12.5px; color:#8a8074; text-decoration:none; margin-bottom:18px;">← {{ active.parentLabel }}</a>
       </sc-if>
 
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:32px;">
+      <div data-m="head" style="display:flex; justify-content:space-between; align-items:center; gap:32px;">
         <div style="min-width:0;">
           <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-bottom:12px;">{{ active.eyebrow }}</div>
-          <h1 style="font-family:'Newsreader',serif; font-size:60px; font-weight:500; margin:0; line-height:1.02; letter-spacing:-0.01em; text-wrap:pretty;">{{ active.title }}</h1>
+          <h1 data-m="h1" style="font-family:'Newsreader',serif; font-size:60px; font-weight:500; margin:0; line-height:1.02; letter-spacing:-0.01em; text-wrap:pretty;">{{ active.title }}</h1>
         </div>
         <sc-if value="{{ active.isHome }}" hint-placeholder-val="{{ false }}">
-          <div style="flex:0 0 170px; width:170px; height:170px; border-radius:50%; padding:8px; background:#fff; box-shadow:0 0 0 10px #efe6d6, 0 14px 30px rgba(80,55,30,0.15);">
+          <div data-m="avatar" style="flex:0 0 170px; width:170px; height:170px; border-radius:50%; padding:8px; background:#fff; box-shadow:0 0 0 10px #efe6d6, 0 14px 30px rgba(80,55,30,0.15);">
             <div role="img" aria-label="Tom Brillard" style="{{ avatarStyle }}"></div>
           </div>
         </sc-if>
@@ -95,18 +125,21 @@
       <div style="height:1px; background:#e6dccb; margin:30px 0 28px;"></div>
 
       <sc-for list="{{ active.paragraphs }}" as="p" hint-placeholder-count="2">
-        <p style="font-size:17px; line-height:1.8; color:#3a332c; margin:0 0 16px; max-width:1100px; text-wrap:pretty;">{{ p }}</p>
+        <p data-m="p" style="font-size:17px; line-height:1.8; color:#3a332c; margin:0 0 16px; max-width:1100px; text-wrap:pretty;">{{ p }}</p>
       </sc-for>
 
       <sc-if value="{{ active.cta }}" hint-placeholder-val="{{ false }}">
-        <a href="{{ active.cta.href }}" target="_top" rel="noopener" onClick="{{ openMail }}" style="display:inline-block; background:#b0634a; color:#fff; font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; text-decoration:none; margin:8px 0 28px;">{{ active.cta.label }}</a>
+        <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:8px 0 28px;">
+          <a href="{{ active.cta.href }}" onClick="{{ openMail }}" style="display:inline-block; background:#b0634a; color:#fff; font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; text-decoration:none;">{{ active.cta.label }}</a>
+          <a href="{{ active.cta.href }}" style="font-size:13px; color:#8a8074;">ou via votre messagerie</a>
+        </div>
       </sc-if>
 
       <sc-if value="{{ active.introStyle }}" hint-placeholder-val="{{ false }}">
-        <div role="img" aria-label="{{ active.title }}" style="{{ active.introStyle }}"></div>
+        <div data-m="intro" role="img" aria-label="{{ active.title }}" style="{{ active.introStyle }}"></div>
       </sc-if>
       <sc-if value="{{ active.slotOnly }}" hint-placeholder-val="{{ false }}">
-        <image-slot id="{{ active.imgId }}" shape="rounded" radius="14" style="min-width:0;width:100%;height:clamp(340px, 50vh, 560px);margin:12px 0 36px;display:block;" placeholder="{{ active.imgPlaceholder }}"></image-slot>
+        <image-slot data-m="intro" id="{{ active.imgId }}" shape="rounded" radius="14" style="min-width:0;width:100%;height:clamp(340px, 50vh, 560px);margin:12px 0 36px;display:block;" placeholder="{{ active.imgPlaceholder }}"></image-slot>
       </sc-if>
 
       <sc-if value="{{ active.subpages }}" hint-placeholder-val="{{ false }}">
@@ -132,18 +165,18 @@
       <sc-if value="{{ active.tps }}" hint-placeholder-val="{{ false }}">
         <div style="margin-top:12px; padding-top:36px; border-top:2px solid #2a2520;">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-bottom:28px;">
-            <div style="font-family:'Newsreader',serif; font-size:32px; font-weight:500;">{{ active.tpHeading }}</div>
+            <div data-m="tphead" style="font-family:'Newsreader',serif; font-size:32px; font-weight:500;">{{ active.tpHeading }}</div>
             <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase; white-space:nowrap;">{{ active.tpCount }}</div>
           </div>
           <div style="display:flex; flex-direction:column; gap:28px;">
             <sc-for list="{{ active.tps }}" as="tp" hint-placeholder-count="2">
               <article style="background:#fff; border:1px solid #ebe1d0; border-radius:18px; overflow:hidden;">
-                <div style="padding:26px 28px 20px;">
+                <div data-m="tpbody" style="padding:26px 28px 20px;">
                   <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
                     <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase;">{{ tp.label }}</div>
                     <sc-if value="{{ tp.date }}" hint-placeholder-val="{{ true }}"><div style="font-size:12px; font-weight:600; color:#b0634a; background:#f6e6dd; padding:4px 11px; border-radius:100px;">{{ tp.date }}</div></sc-if>
                   </div>
-                  <h2 style="font-family:'Newsreader',serif; font-size:26px; font-weight:500; margin:0 0 12px; line-height:1.15;">{{ tp.title }}</h2>
+                  <h2 data-m="tph2" style="font-family:'Newsreader',serif; font-size:26px; font-weight:500; margin:0 0 12px; line-height:1.15;">{{ tp.title }}</h2>
                   <sc-for list="{{ tp.text }}" as="para" hint-placeholder-count="1">
                     <p style="font-size:15px; line-height:1.75; color:#4a423a; margin:0 0 10px; text-wrap:pretty;">{{ para }}</p>
                   </sc-for>
@@ -152,7 +185,7 @@
                   <div style="overflow:hidden; width:100%;">
                     <div style="{{ tp.trackStyle }}">
                       <sc-for list="{{ tp.slides }}" as="sl" hint-placeholder-count="1">
-                        <div style="flex:0 0 100%; min-width:0; height:clamp(400px, 58vh, 640px);">
+                        <div data-m="slide" style="flex:0 0 100%; min-width:0; height:clamp(400px, 58vh, 640px);">
                           <sc-if value="{{ sl.src }}" hint-placeholder-val="{{ false }}">
                             <div role="img" aria-label="{{ tp.title }}" style="{{ sl.bgStyle }}"></div>
                           </sc-if>
@@ -165,8 +198,8 @@
                   </div>
                   <sc-if value="{{ tp.multi }}" hint-placeholder-val="{{ false }}">
                     <div>
-                      <button onClick="{{ tp.prev }}" aria-label="Image précédente" style="all:unset; cursor:pointer; position:absolute; left:14px; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); color:#2a2520; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 14px rgba(60,40,20,0.18);" style-hover="background:#fff;">←</button>
-                      <button onClick="{{ tp.next }}" aria-label="Image suivante" style="all:unset; cursor:pointer; position:absolute; right:14px; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); color:#2a2520; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 14px rgba(60,40,20,0.18);" style-hover="background:#fff;">→</button>
+                      <button data-m="arrow" onClick="{{ tp.prev }}" aria-label="Image précédente" style="all:unset; cursor:pointer; position:absolute; left:14px; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); color:#2a2520; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 14px rgba(60,40,20,0.18);" style-hover="background:#fff;">←</button>
+                      <button data-m="arrow" onClick="{{ tp.next }}" aria-label="Image suivante" style="all:unset; cursor:pointer; position:absolute; right:14px; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); color:#2a2520; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 14px rgba(60,40,20,0.18);" style-hover="background:#fff;">→</button>
                       <div style="position:absolute; left:0; right:0; bottom:14px; display:flex; justify-content:center; gap:7px;">
                         <sc-for list="{{ tp.dots }}" as="d" hint-placeholder-count="3">
                           <button onClick="{{ d.onClick }}" aria-label="Aller à l'image" style="{{ d.style }}"></button>
@@ -254,7 +287,7 @@
 
 
       <sc-if value="{{ active.siblings }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex; justify-content:space-between; gap:16px; margin-top:48px; padding-top:22px; border-top:1px solid #e6dccb;">
+        <div data-m="sibs" style="display:flex; justify-content:space-between; gap:16px; margin-top:48px; padding-top:22px; border-top:1px solid #e6dccb;">
           <a href="{{ active.prev.href }}" onClick="{{ active.prev.onClick }}" style="{{ active.prev.style }}">← {{ active.prev.label }}</a>
           <a href="{{ active.next.href }}" onClick="{{ active.next.onClick }}" style="{{ active.next.style }}">{{ active.next.label }} →</a>
         </div>
@@ -277,7 +310,7 @@ const S = {
       "On y apprend à dessiner des pièces en 3D, choisir les procédés de fabrication, organiser la production et améliorer les performances industrielles, à travers des cours, travaux pratiques et projets concrets.",
       "En naviguant entre les onglets, je vais vous présenter ce que j'ai pu apprendre ainsi que ce que j'ai pu accomplir tout au long de mon cursus !"
     ],
-    cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Contact%20depuis%20votre%20portfolio' },
+    cta: { label: 'Me contacter', subject: 'Contact depuis votre portfolio', href: 'mailto:brillard.tom30@gmail.com?subject=Contact%20depuis%20votre%20portfolio' },
     image: true, imgId: 'img-qsj', imgPlaceholder: 'Photo — atelier / IUT'
   },
   'cv': { eyebrow: 'Curriculum vitae', title: 'Mon CV', isCv: true, paragraphs: [
@@ -400,7 +433,7 @@ const S = {
   'stage': {
     eyebrow: 'Parcours & projets', title: 'Stage', intro: IMG + 'stage/intro.jpg',
     paragraphs: ["Je recherche un stage conventionné (convention IUT de Nîmes) d'avril à juin 2027, en bureau d'études, en production ou en méthodes. Mobile, titulaire du permis B."],
-    cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Stage BUT2 GMP' }
+    cta: { label: 'Me contacter', subject: 'Stage BUT2 GMP', href: 'mailto:brillard.tom30@gmail.com?subject=Stage%20BUT2%20GMP' }
   }
 };
 
@@ -466,13 +499,14 @@ class Component extends DCLogic {
     return (e) => {
       if (e) e.preventDefault();
       if (window.location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
-      this.setState({ active: id });
+      this.setState({ active: id, menuOpen: false });
       const m = document.querySelector('main'); if (m) m.scrollTop = 0;
+      window.scrollTo(0, 0);
     };
   }
 
   renderVals() {
-    const openMail = (e) => { const href = 'mailto:brillard.tom30@gmail.com?subject=' + encodeURIComponent('Contact depuis votre portfolio'); e.preventDefault(); try { window.top.location.href = href; } catch (_) { window.location.href = href; } };
+    const openMail = (e) => { e.preventDefault(); const subj = (a.cta && a.cta.subject) || 'Contact depuis votre portfolio'; window.open('https://mail.google.com/mail/?view=cm&fs=1&to=brillard.tom30@gmail.com&su=' + encodeURIComponent(subj), '_blank', 'noopener'); };
     const cur = this.state.active;
     const curParent = S[cur].parent;
     const closedG = this.state.closedGroups || {};
@@ -540,7 +574,7 @@ class Component extends DCLogic {
     }
 
     const avatarStyle = { width: '100%', height: '100%', borderRadius: '50%', backgroundImage: 'url("' + IMG + 'profil/photo.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' };
-    return { openMail, avatarStyle, nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
+    return { menuFlag: this.state.menuOpen ? '1' : '0', toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })), closeMenu: () => this.setState({ menuOpen: false }), openMail, avatarStyle, nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
   }
 }
 
