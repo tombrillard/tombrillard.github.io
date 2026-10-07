@@ -25,7 +25,7 @@
 
 <div style="display:flex; width:100%; min-height:100vh; font-family:'Work Sans',sans-serif; color:#2a2520; background:#faf6ef;">
 
-  <aside class="tb-scroll" style="width:290px; flex:0 0 290px; background:#efe6d6; height:100vh; overflow-y:auto; overflow-x:hidden; padding:40px 30px; position:sticky; top:0;">
+  <aside class="tb-scroll" style="width:320px; flex:0 0 320px; background:#efe6d6; height:100vh; overflow-y:auto; overflow-x:hidden; padding:40px 30px; position:sticky; top:0;">
     <a href="#qui-suis-je" onClick="{{ goHome }}" style="text-decoration:none; color:#2a2520; display:block;">
       <div style="font-family:'Newsreader',serif; font-size:10.5px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-bottom:10px;">Portfolio</div>
       <div style="font-family:'Newsreader',serif; font-size:34px; line-height:1; font-weight:500; letter-spacing:-0.01em;">Tom<br>Brillard</div>
@@ -73,8 +73,8 @@
     </sc-for>
   </aside>
 
-  <main class="tb-scroll" style="flex:1; min-width:0; height:100vh; overflow-y:auto; overflow-x:hidden; padding:56px 64px 80px;">
-    <div style="max-width:760px;">
+  <main class="tb-scroll" style="flex:1; min-width:0; height:100vh; overflow-y:auto; overflow-x:hidden; padding:64px clamp(40px, 5vw, 110px) 96px;">
+    <div style="width:100%; max-width:1600px; margin:0 auto;">
 
       <sc-if value="{{ active.parentLabel }}" hint-placeholder-val="{{ false }}">
         <a href="{{ active.parentHref }}" onClick="{{ goParent }}" style="display:inline-flex; gap:6px; font-size:12.5px; color:#8a8074; text-decoration:none; margin-bottom:18px;">← {{ active.parentLabel }}</a>
@@ -83,7 +83,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; gap:32px;">
         <div style="min-width:0;">
           <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.32em; color:#b0634a; text-transform:uppercase; margin-bottom:12px;">{{ active.eyebrow }}</div>
-          <h1 style="font-family:'Newsreader',serif; font-size:52px; font-weight:500; margin:0; line-height:1.02; letter-spacing:-0.01em; text-wrap:pretty;">{{ active.title }}</h1>
+          <h1 style="font-family:'Newsreader',serif; font-size:60px; font-weight:500; margin:0; line-height:1.02; letter-spacing:-0.01em; text-wrap:pretty;">{{ active.title }}</h1>
         </div>
         <sc-if value="{{ active.isHome }}" hint-placeholder-val="{{ false }}">
           <div style="flex:0 0 170px; width:170px; height:170px; border-radius:50%; padding:8px; background:#fff; box-shadow:0 0 0 10px #efe6d6, 0 14px 30px rgba(80,55,30,0.15);">
@@ -95,18 +95,18 @@
       <div style="height:1px; background:#e6dccb; margin:30px 0 28px;"></div>
 
       <sc-for list="{{ active.paragraphs }}" as="p" hint-placeholder-count="2">
-        <p style="font-size:16px; line-height:1.8; color:#3a332c; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+        <p style="font-size:17px; line-height:1.8; color:#3a332c; margin:0 0 16px; max-width:1100px; text-wrap:pretty;">{{ p }}</p>
       </sc-for>
 
       <sc-if value="{{ active.cta }}" hint-placeholder-val="{{ false }}">
-        <a href="{{ active.cta.href }}" style="display:inline-block; background:#b0634a; color:#fff; font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; text-decoration:none; margin:8px 0 28px;">{{ active.cta.label }}</a>
+        <a href="{{ active.cta.href }}" target="_top" rel="noopener" onClick="{{ openMail }}" style="display:inline-block; background:#b0634a; color:#fff; font-weight:600; font-size:14px; padding:12px 24px; border-radius:100px; text-decoration:none; margin:8px 0 28px;">{{ active.cta.label }}</a>
       </sc-if>
 
       <sc-if value="{{ active.introStyle }}" hint-placeholder-val="{{ false }}">
         <div role="img" aria-label="{{ active.title }}" style="{{ active.introStyle }}"></div>
       </sc-if>
       <sc-if value="{{ active.slotOnly }}" hint-placeholder-val="{{ false }}">
-        <image-slot id="{{ active.imgId }}" shape="rounded" radius="14" style="min-width:0;width:100%;height:340px;margin:12px 0 36px;display:block;" placeholder="{{ active.imgPlaceholder }}"></image-slot>
+        <image-slot id="{{ active.imgId }}" shape="rounded" radius="14" style="min-width:0;width:100%;height:clamp(340px, 50vh, 560px);margin:12px 0 36px;display:block;" placeholder="{{ active.imgPlaceholder }}"></image-slot>
       </sc-if>
 
       <sc-if value="{{ active.subpages }}" hint-placeholder-val="{{ false }}">
@@ -132,7 +132,7 @@
       <sc-if value="{{ active.tps }}" hint-placeholder-val="{{ false }}">
         <div style="margin-top:12px; padding-top:36px; border-top:2px solid #2a2520;">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-bottom:28px;">
-            <div style="font-family:'Newsreader',serif; font-size:32px; font-weight:500;">Travaux pratiques</div>
+            <div style="font-family:'Newsreader',serif; font-size:32px; font-weight:500;">{{ active.tpHeading }}</div>
             <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase; white-space:nowrap;">{{ active.tpCount }}</div>
           </div>
           <div style="display:flex; flex-direction:column; gap:28px;">
@@ -140,8 +140,8 @@
               <article style="background:#fff; border:1px solid #ebe1d0; border-radius:18px; overflow:hidden;">
                 <div style="padding:26px 28px 20px;">
                   <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
-                    <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase;">TP {{ tp.num }}</div>
-                    <div style="font-size:12px; font-weight:600; color:#b0634a; background:#f6e6dd; padding:4px 11px; border-radius:100px;">{{ tp.date }}</div>
+                    <div style="font-family:'Newsreader',serif; font-size:11px; letter-spacing:0.28em; color:#b0634a; text-transform:uppercase;">{{ tp.label }}</div>
+                    <sc-if value="{{ tp.date }}" hint-placeholder-val="{{ true }}"><div style="font-size:12px; font-weight:600; color:#b0634a; background:#f6e6dd; padding:4px 11px; border-radius:100px;">{{ tp.date }}</div></sc-if>
                   </div>
                   <h2 style="font-family:'Newsreader',serif; font-size:26px; font-weight:500; margin:0 0 12px; line-height:1.15;">{{ tp.title }}</h2>
                   <sc-for list="{{ tp.text }}" as="para" hint-placeholder-count="1">
@@ -152,7 +152,7 @@
                   <div style="overflow:hidden; width:100%;">
                     <div style="{{ tp.trackStyle }}">
                       <sc-for list="{{ tp.slides }}" as="sl" hint-placeholder-count="1">
-                        <div style="flex:0 0 100%; min-width:0; height:400px;">
+                        <div style="flex:0 0 100%; min-width:0; height:clamp(400px, 58vh, 640px);">
                           <sc-if value="{{ sl.src }}" hint-placeholder-val="{{ false }}">
                             <div role="img" aria-label="{{ tp.title }}" style="{{ sl.bgStyle }}"></div>
                           </sc-if>
@@ -272,11 +272,12 @@ const S = {
   'qui-suis-je': {
     eyebrow: 'Portfolio · BUT GMP', title: 'Qui suis-je ?', isHome: true,
     paragraphs: [
-      "Je m'appelle Tom Brillard, étudiant en 2ᵉ année de BUT Génie Mécanique et Productique à l'IUT de Nîmes.",
-      "Le BUT GMP forme à la conception, la fabrication et l'optimisation de produits mécaniques : dessiner des pièces en 3D, choisir les procédés de fabrication, organiser la production et améliorer les performances industrielles, à travers cours, travaux pratiques et projets concrets.",
-      "En parcourant les rubriques ci-contre, je vous présente ce que j'ai appris et accompli tout au long de mon cursus."
+      "Bienvenue sur mon portfolio en ligne ! Je m'appelle Tom Brillard, et je suis étudiant à l'IUT de Nîmes en filière BUT Génie Mécanique et Productique.",
+      "Mais alors, qu'est-ce que la filière BUT Génie Mécanique et Productique ? En gros, elle forme à la conception, la fabrication et l'optimisation de produits mécaniques.",
+      "On y apprend à dessiner des pièces en 3D, choisir les procédés de fabrication, organiser la production et améliorer les performances industrielles, à travers des cours, travaux pratiques et projets concrets.",
+      "En naviguant entre les onglets, je vais vous présenter ce que j'ai pu apprendre ainsi que ce que j'ai pu accomplir tout au long de mon cursus !"
     ],
-    cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Portfolio' },
+    cta: { label: 'Me contacter', href: 'mailto:brillard.tom30@gmail.com?subject=Contact%20depuis%20votre%20portfolio' },
     image: true, imgId: 'img-qsj', imgPlaceholder: 'Photo — atelier / IUT'
   },
   'cv': { eyebrow: 'Curriculum vitae', title: 'Mon CV', isCv: true, paragraphs: [
@@ -295,27 +296,36 @@ const S = {
     parent: 'usinage', eyebrow: 'Usinage', title: 'Tournage',
     excerpt: "La pièce tourne, l'outil enlève la matière : arbres, alésages, filetages.",
     paragraphs: [
-      "Le tournage consiste à faire tourner la pièce sur un axe pendant qu'un outil fixe enlève la matière, pour réaliser des formes cylindriques : arbres, alésages, filetages."
+      "Le tournage est une technique d'usinage où la pièce tourne sur elle-même pendant qu'un outil enlève la matière pour créer des formes cylindriques.",
+      "En GMP, le tournage est étudié comme un procédé fondamental pour apprendre à fabriquer et contrôler des pièces mécaniques de précision."
     ],
     image: true, imgId: 'img-tournage', intro: IMG + 'usinage/tournage/intro.jpg',
-    tps: [{ title: "TP Tournage", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'usinage/tournage/1.jpg', IMG + 'usinage/tournage/2.jpg', IMG + 'usinage/tournage/3.jpg', IMG + 'usinage/tournage/4.jpg', IMG + 'usinage/tournage/5.jpg', IMG + 'usinage/tournage/6.jpg'] }]
+    tps: [{ title: "Usinage d'une pièce d'un lève-moto", date: "24/10/2025", text: [
+      "Durant ces travaux pratiques, j'ai d'abord appris les bases du tournage : le fonctionnement d'une machine de tournage, ses réglages, ainsi que la manière d'installer les mors, l'outil ou encore la contre-pointe.",
+      "Ensuite, j'ai approfondi mes connaissances sur l'usinage d'une pièce afin d'obtenir les bonnes cotes, en apprenant à choisir l'outil adapté à chaque opération et à l'utiliser correctement.",
+      "Enfin, après vérification à l'aide des différents outils de mesure de précision, la pièce s'est révélée conforme à sa description."], images: [IMG + 'usinage/tournage/1.jpg', IMG + 'usinage/tournage/2.jpg', IMG + 'usinage/tournage/3.jpg', IMG + 'usinage/tournage/4.jpg', IMG + 'usinage/tournage/5.jpg', IMG + 'usinage/tournage/6.jpg'] }]
   },
   'percage': {
     parent: 'usinage', eyebrow: 'Usinage', title: 'Perçage',
     excerpt: "Des trous cylindriques précis à l'aide d'un foret en rotation.",
     paragraphs: [
-      "Le perçage permet de réaliser des trous cylindriques précis dans une pièce à l'aide d'un foret en rotation — une opération de base pour l'assemblage."
+      "Le perçage est une opération d'usinage qui consiste à créer ou agrandir un trou dans une pièce à l'aide d'un foret en rotation.",
+      "En GMP, le perçage fait partie des procédés de base étudiés pour apprendre à fabriquer et assembler des pièces mécaniques avec précision."
     ],
     image: true, imgId: 'img-percage', intro: IMG + 'usinage/percage/intro.jpg',
-    tps: [{ title: "TP Perçage", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'usinage/percage/1.jpg', IMG + 'usinage/percage/2.jpg', IMG + 'usinage/percage/3.jpg', IMG + 'usinage/percage/4.jpg', IMG + 'usinage/percage/5.jpg', IMG + 'usinage/percage/6.jpg', IMG + 'usinage/percage/7.jpg'] }]
+    tps: [{ title: "Usinage de différents trous", date: "21/10/2025", text: [
+      "Durant ces travaux pratiques, j'ai pu effectuer différentes opérations de perçage : trous débouchants ou borgnes, lamage, fraisure, alésage et filetage.",
+      "Ces opérations ont été effectuées sur deux pavés d'aluminium plaqués l'un contre l'autre dans un étau. À la fin, on a pu les séparer afin de voir le résultat."], images: [IMG + 'usinage/percage/1.jpg', IMG + 'usinage/percage/2.jpg', IMG + 'usinage/percage/3.jpg', IMG + 'usinage/percage/4.jpg', IMG + 'usinage/percage/5.jpg', IMG + 'usinage/percage/6.jpg', IMG + 'usinage/percage/7.jpg'] }]
   },
   'fraisage': {
     parent: 'usinage', eyebrow: 'Usinage', title: 'Fraisage',
     excerpt: "Surfaces planes, poches et profils complexes avec un outil multi-dents.",
     paragraphs: [
-      "Le fraisage utilise un outil rotatif à plusieurs dents pour usiner des surfaces planes, des poches ou des profils complexes sur une pièce fixe."
+      "Le fraisage est un procédé d'usinage par enlèvement de matière utilisant une fraise rotative pour réaliser des surfaces planes, des rainures ou des formes complexes.",
+      "Dans la filière GMP, il sert à fabriquer des pièces mécaniques précises et à développer des compétences essentielles comme le choix des outils, la définition des paramètres de coupe et la programmation sur machines CNC, indispensables à la production industrielle."
     ],
-    image: true, imgId: 'img-fraisage', imgPlaceholder: 'Photo — pièce fraisée'
+    image: true, imgId: 'img-fraisage', imgPlaceholder: 'Photo — pièce fraisée',
+    tps: [{ title: "Usinage de la chape de la SAE 1.3", date: '03/12/2025', text: ["Lors de ces travaux pratiques, nous avons eu l'occasion d'usiner une pièce en aluminium, plus précisément la chape correspondant à la SAE 1.3. Nous avons pu utiliser différentes fraises, des outils de précision et des forets de perçage.", "Nous avons ainsi appris à régler et à utiliser une machine de fraisage conventionnelle."] }]
   },
   'soudage': {
     eyebrow: 'Compétences techniques', title: 'Soudage',
@@ -334,14 +344,17 @@ const S = {
       { title: 'Moulage non-permanent au sable', date: '09/12/2025', text: "Lors de ces travaux pratiques, nous avons appris à fondre une pièce à partir de métal en fusion, avec un moule destructible en sable composé d'argile, de silice et d'additifs. Nous avons formé un canal de coulée, des évents et des masselottes, puis créé un moule sur SolidWorks." }
     ]
   },
-  'sdm': { eyebrow: 'Compétences techniques', title: 'SDM — Sciences des Matériaux', paragraphs: ["La SDM étudie la structure, les propriétés et le comportement des matériaux métalliques et composites. En GMP, elle permet de choisir le bon matériau selon les contraintes mécaniques, thermiques ou environnementales d'une pièce."], image: true, imgId: 'img-sdm', intro: IMG + 'sdm/1.jpg',
-    tps: [{ title: "TP Sciences des matériaux", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'sdm/2.jpg', IMG + 'sdm/3.jpg', IMG + 'sdm/4.jpg', IMG + 'sdm/5.jpg', IMG + 'sdm/6.jpg', IMG + 'sdm/7.jpg', IMG + 'sdm/8.jpg'] }] },
-  'metrologie': { eyebrow: 'Compétences techniques', title: 'Métrologie', paragraphs: ["La métrologie regroupe les techniques de mesure et de contrôle dimensionnel des pièces. Elle garantit la conformité d'une production aux tolérances définies, une compétence clé pour tout technicien en mécanique."], image: true, imgId: 'img-metro', intro: IMG + 'metrologie/tp1-1.jpg',
+  'sdm': { eyebrow: 'Compétences techniques', title: 'SDM — Sciences des Matériaux', paragraphs: ["La science des matériaux est l'étude des propriétés, du comportement et du choix des matériaux (métaux, plastiques, composites…) en fonction de leur utilisation.", "En GMP, elle est indispensable pour sélectionner le bon matériau et concevoir des pièces fiables et performantes selon les contraintes mécaniques, thermiques ou industrielles."], image: true, imgId: 'img-sdm', intro: IMG + 'sdm/1.jpg',
     tps: [
-      { title: "Contrôles dimensionnels", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp1-1.jpg', IMG + 'metrologie/tp1-2.jpg'] },
-      { title: "Contrôle de circularité", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp2-1.jpg', IMG + 'metrologie/tp2-2.jpg', IMG + 'metrologie/tp2-3.jpg'] },
-      { title: "Contrôle sur colonne de mesure", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp3-1.jpg', IMG + 'metrologie/tp3-2.jpg', IMG + 'metrologie/tp3-3.jpg'] },
-      { title: "Contrôle d'états de surface", date: "JJ/MM/AAAA", text: "Texte du TP à venir : objectif, déroulement, ce que j'ai appris.", images: [IMG + 'metrologie/tp4-1.jpg'] }
+      { title: "Essai de traction sur une plaque d'acier", date: "07/11/2025", text: ["Lors de ces premiers travaux pratiques de SDM, j'ai appris à analyser un matériau de A à Z, à réaliser un essai de traction et à déterminer toutes les caractéristiques mécaniques d'un matériau en particulier.", "J'ai également appris à utiliser correctement une machine de traction manuelle."], images: [IMG + 'sdm/2.jpg', IMG + 'sdm/3.jpg', IMG + 'sdm/4.jpg'] },
+      { title: "Test de dureté sur rails Vignole", date: "28/11/2025", text: ["Lors de ces travaux pratiques, nous avons utilisé un duromètre Vickers qui, en faisant une petite empreinte avec une pointe en diamant, permet de mesurer la dureté d'un matériau.", "Nous devions faire une moyenne puis, à l'aide de nombreux calculs, réussir à déterminer quel était le matériau étudié."], images: [IMG + 'sdm/5.jpg', IMG + 'sdm/6.jpg', IMG + 'sdm/7.jpg', IMG + 'sdm/8.jpg'] }
+    ] },
+  'metrologie': { eyebrow: 'Compétences techniques', title: 'Métrologie', paragraphs: ["La métrologie est la science de la mesure, qui consiste à contrôler les dimensions, formes et tolérances d'une pièce pour garantir sa conformité.", "En GMP, elle est essentielle pour vérifier la qualité des pièces fabriquées et assurer la précision des procédés de production."], image: true, imgId: 'img-metro', intro: IMG + 'metrologie/tp1-1.jpg',
+    tps: [
+      { title: "Contrôle dimensionnel", date: "15/10/2025", text: ["Lors de ces travaux pratiques, j'ai appris à utiliser correctement des pieds à coulisse de différentes tailles, ainsi qu'un micromètre d'extérieur et une jauge de profondeur.", "Grâce à ces instruments, j'ai pu effectuer différents calculs en appliquant les formules adaptées, afin d'obtenir avec précision l'ensemble des mesures de la pièce."], images: [IMG + 'metrologie/tp1-1.jpg', IMG + 'metrologie/tp1-2.jpg'] },
+      { title: "Contrôle de circularité", date: "15/10/2025", text: ["Lors de ces travaux pratiques, j'ai appris à utiliser différents instruments de mesure, comme un vérificateur de circularité numérique, un vérificateur d'alésage et un micromètre d'intérieur à trois touches.", "Grâce à ces outils, nous avons pu identifier les différents défauts des surfaces circulaires et déterminer la façon dont la pièce a été usinée. Cela permet également de vérifier sa conformité en fonction de son utilisation."], images: [IMG + 'metrologie/tp2-1.jpg', IMG + 'metrologie/tp2-2.jpg', IMG + 'metrologie/tp2-3.jpg'] },
+      { title: "Contrôle sur colonne de mesure", date: "05/11/2025", text: ["Lors de ces travaux pratiques, j'ai appris à utiliser une colonne de mesure pour déterminer, à l'aide de calculs précis, d'autres dimensions qui ne peuvent pas être mesurées directement avec exactitude."], images: [IMG + 'metrologie/tp3-1.jpg', IMG + 'metrologie/tp3-2.jpg', IMG + 'metrologie/tp3-3.jpg'] },
+      { title: "Contrôle d'états de surface", date: "05/11/2025", text: ["Lors de ces travaux pratiques, j'ai pu contrôler les différents états de surface de pièces tournées et fraisées en les comparant à une plaquette Rugotest, puis en utilisant un appareil de mesure d'état de surface accompagné d'un logiciel.", "De cette manière, j'ai pu étudier l'influence de certains paramètres de coupe sur l'état de surface d'une pièce usinée."], images: [IMG + 'metrologie/tp4-1.jpg'] }
     ] },
   'bureau-etude': { eyebrow: 'Compétences techniques', title: "Bureau d'étude", paragraphs: ["Le bureau d'étude est le lieu de conception des pièces et systèmes mécaniques : modélisation 3D, mise en plan, cotation fonctionnelle et choix technologiques, avant leur fabrication."], image: true, imgId: 'img-be', imgPlaceholder: 'Photo — modélisation SolidWorks' },
   'programmation': { eyebrow: 'Compétences techniques', title: 'Programmation', paragraphs: ["La programmation, notamment sur machines à commande numérique (CN), permet de traduire un plan de fabrication en instructions machine pour usiner automatiquement une pièce avec précision et répétabilité."], image: true, imgId: 'img-prog', imgPlaceholder: 'Photo — pupitre CN' },
@@ -349,29 +362,33 @@ const S = {
   'cnd': { eyebrow: 'Compétences techniques', title: 'CND — Contrôle Non Destructif', paragraphs: ["Le contrôle non destructif permet de détecter des défauts internes ou de surface sur une pièce (fissures, porosités) sans l'endommager, par exemple par ressuage ou ultrasons."], image: true, imgId: 'img-cnd', imgPlaceholder: 'Photo — contrôle par ressuage' },
   'sae': {
     eyebrow: 'Parcours & projets', title: 'SAE',
-    paragraphs: ["Les Situations d'Apprentissage et d'Évaluation (SAE) sont des projets encadrés qui mettent en pratique, sur un cas concret, les compétences acquises en cours."],
-    subpagesTitle: 'Projets SAE', children: ['sae11', 'sae12', 'sae13']
+    paragraphs: ["Une SAé (Situation d'Apprentissage et d'Évaluation) est un projet qui associe apprentissage et évaluation dans un contexte proche du monde professionnel. Elle permet à l'étudiant de mettre en pratique ses connaissances théoriques et ses compétences techniques pour résoudre un problème concret.", "Les SAé favorisent l'autonomie, la réflexion et le développement de compétences techniques et transversales comme l'organisation et le travail en équipe."],
+    subpagesTitle: 'Mes SAE', children: ['sae1', 'sae2', 'sae3']
   },
-  'sae11': {
-    parent: 'sae', eyebrow: 'SAE', title: 'SAE 1.1',
-    excerpt: "Premier projet encadré du cursus.",
-    paragraphs: ["Projet encadré du cursus mettant en pratique les compétences acquises en cours."],
-    intro: IMG + 'sae/sae11-1.jpg', imgId: 'img-sae11',
-    tps: [{ title: "SAE 1.1", date: "JJ/MM/AAAA", text: "Texte à venir : sujet, rôle, livrables et résultat.", images: [IMG + 'sae/sae11-1.jpg'] }]
+  'sae1': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°1', tpHeading: 'Mes projets de SAE n°1',
+    excerpt: "Analyse, mise en plan et conception CAO d'un lève-moto manuel.",
+    paragraphs: ["La SAé 1 consiste à analyser un système mécanique réel, ici un lève-moto manuel simple, afin de comprendre son fonctionnement. Ce travail permet de mettre en pratique les connaissances théoriques (cinématique, dynamique) et les compétences techniques pour résoudre un problème concret : modéliser le mécanisme, identifier ses composants et ses mouvements.", "Cette SAé favorise l'autonomie, la réflexion et le développement de compétences techniques (analyse, représentation normalisée) et transversales comme l'organisation et le travail en équipe."],
+    image: true, imgId: 'img-sae1', imgPlaceholder: 'Photo — lève-moto manuel',
+    tps: [
+      { label: 'SAE 1.1', title: "Analyse du lève-moto et schéma cinématique", date: '', text: ["Cette SAé consiste à analyser le fonctionnement d'un lève-moto manuel simple. L'objectif est d'identifier les composants, les liaisons et les mouvements, puis de réaliser un schéma cinématique pour modéliser le mécanisme.", "Ce travail permet de comprendre les principes de levage et de stabilité, en appliquant les notions de cinématique et de dynamique vues en cours. Il développe la rigueur dans l'observation et la représentation normalisée, ainsi que la capacité à relier la théorie à une application concrète."], images: [IMG + 'sae/sae11-1.jpg'] },
+      { label: 'SAE 1.2', title: "Mise en plan du plateau et étude statique", date: '', text: ["La SAé 1.2 consiste à réaliser deux tâches complémentaires autour du lève-moto manuel :", "Une partie Bureau d'études, où l'étudiant effectue la mise en plan du plateau du lève-moto avec les vues normalisées et une vue en perspective, en respectant les normes de dessin industriel.", "Une partie mécanique, où il applique le Principe Fondamental de la Statique (PFS) pour analyser les efforts et vérifier l'équilibre du système.", "Cette SAé permet de mettre en pratique des compétences techniques variées, du dessin industriel à l'analyse mécanique, tout en développant la rigueur, la précision et la capacité à relier la théorie à une application concrète."], images: [IMG + 'sae/sae12-1.jpg'] },
+      { label: 'SAE 1.3', title: "Conception CAO d'une roulette", date: '', text: ["Dans cette SAé, l'objectif est de concevoir en CAO (Conception Assistée par Ordinateur) une roulette destinée au lève-moto. L'étudiant doit respecter des cotes précises et produire un modèle 3D conforme aux exigences du cahier des charges.", "Ce travail développe la maîtrise des outils de modélisation, la rigueur dans le respect des tolérances et la capacité à anticiper les contraintes de fabrication."], images: [IMG + 'sae/sae13-1.jpg'] }
+    ]
   },
-  'sae12': {
-    parent: 'sae', eyebrow: 'SAE', title: 'SAE 1.2',
-    excerpt: "Deuxième projet encadré.",
-    paragraphs: ["Projet encadré du cursus mettant en pratique les compétences acquises en cours."],
-    intro: IMG + 'sae/sae12-1.jpg', imgId: 'img-sae12',
-    tps: [{ title: "SAE 1.2", date: "JJ/MM/AAAA", text: "Texte à venir : sujet, rôle, livrables et résultat.", images: [IMG + 'sae/sae12-1.jpg'] }]
+  'sae2': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°2', tpHeading: 'Mes projets de SAE n°2',
+    excerpt: "Conception d'un dragster miniature : CAO et mise en plan.",
+    paragraphs: ["La SAE n°2 consiste à concevoir un dragster miniature, en appliquant les bases de la conception et du dessin industriel. L'objectif est d'analyser les fonctions du véhicule, de comprendre les contraintes liées à la vitesse, à l'aérodynamisme ou à la transmission, puis de proposer une solution technique cohérente.", "L'étudiant doit modéliser en 3D la pièce sur un logiciel de CAO et réaliser une mise en plan normalisée, en respectant les règles de cotation fonctionnelle et de tolérances. Cette SAE permet de développer une rigueur de conception proche du travail en bureau d'études, tout en s'initiant à la conception mécanique appliquée à un projet concret et motivant."],
+    image: true, imgId: 'img-sae2', imgPlaceholder: 'Photo — dragster miniature',
+    tps: [1, 2, 3, 4, 5].map(n => ({ label: 'SAE 2.' + n, title: 'SAE 2.' + n, date: '', text: "Texte à venir : sujet, livrables et ce que j'ai appris." }))
   },
-  'sae13': {
-    parent: 'sae', eyebrow: 'SAE', title: 'SAE 1.3',
-    excerpt: "Troisième projet encadré.",
-    paragraphs: ["Projet encadré du cursus mettant en pratique les compétences acquises en cours."],
-    intro: IMG + 'sae/sae13-1.jpg', imgId: 'img-sae13',
-    tps: [{ title: "SAE 1.3", date: "JJ/MM/AAAA", text: "Texte à venir : sujet, rôle, livrables et résultat.", images: [IMG + 'sae/sae13-1.jpg'] }]
+  'sae3': {
+    parent: 'sae', eyebrow: 'SAE', title: 'SAE n°3', tpHeading: 'Mes projets de SAE n°3',
+    excerpt: "À venir.",
+    paragraphs: ["Présentation de la SAE n°3 à venir."],
+    image: true, imgId: 'img-sae3', imgPlaceholder: 'Photo — SAE n°3',
+    tps: [{ label: 'SAE 3.1', title: 'SAE 3.1', date: '', text: "Texte à venir : sujet, livrables et ce que j'ai appris." }]
   },
   'ppp': { eyebrow: 'Parcours & projets', title: 'PPP — Projet Personnel et Professionnel', intro: IMG + 'ppp/intro.jpg', paragraphs: ["Le PPP accompagne la construction du projet professionnel de l'étudiant : découverte des métiers, recherches de stage et d'alternance, réflexion sur ses compétences et son orientation."] },
   'projets': {
@@ -387,7 +404,7 @@ const S = {
   }
 };
 
-const TP_PAGES = ['tournage', 'percage', 'fraisage', 'soudage', 'fonderie', 'sdm', 'metrologie', 'bureau-etude', 'programmation', 'methode', 'cnd', 'sae11', 'sae12', 'sae13'];
+const TP_PAGES = ['tournage', 'percage', 'fraisage', 'soudage', 'fonderie', 'sdm', 'metrologie', 'bureau-etude', 'programmation', 'methode', 'cnd', 'sae1', 'sae2', 'sae3'];
 
 const NAV = [
   { name: 'Profil', items: ['qui-suis-je', 'cv'] },
@@ -455,6 +472,7 @@ class Component extends DCLogic {
   }
 
   renderVals() {
+    const openMail = (e) => { const href = 'mailto:brillard.tom30@gmail.com?subject=' + encodeURIComponent('Contact depuis votre portfolio'); e.preventDefault(); try { window.top.location.href = href; } catch (_) { window.location.href = href; } };
     const cur = this.state.active;
     const curParent = S[cur].parent;
     const closedG = this.state.closedGroups || {};
@@ -497,12 +515,13 @@ class Component extends DCLogic {
       a.prev = { label: p ? S[p].title : '', href: '#' + (p || cur), onClick: p ? this.go(p) : null, style: linkStyle(!!p) };
       a.next = { label: n ? S[n].title : '', href: '#' + (n || cur), onClick: n ? this.go(n) : null, style: linkStyle(!!n) };
     }
-    a.introStyle = a.intro ? { width: '100%', height: '360px', borderRadius: '14px', margin: '12px 0 36px', backgroundImage: 'url("' + a.intro + '")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#f3ebdd' } : null;
+    a.introStyle = a.intro ? { width: '100%', height: 'clamp(360px, 52vh, 600px)', borderRadius: '14px', margin: '12px 0 36px', backgroundImage: 'url("' + a.intro + '")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#f3ebdd' } : null;
     a.slotOnly = a.image && !a.intro;
     if (TP_PAGES.includes(cur)) {
       const list = (a.tps && a.tps.length) ? a.tps : [{ title: 'Titre du TP', date: 'JJ/MM/AAAA', text: 'Texte du TP à venir : objectif, déroulement, ce que j\'ai appris.' }];
       const car = this.state.car || {};
-      a.tpCount = list.length + (list.length > 1 ? ' TP' : ' TP');
+      a.tpCount = list.length + (cur.startsWith('sae') ? ' projet' + (list.length > 1 ? 's' : '') : ' TP');
+      a.tpHeading = a.tpHeading || 'Travaux pratiques';
       a.tps = list.map((tp, i) => {
         const key = cur + '-' + i;
         const imgs = (tp.images && tp.images.length) ? tp.images : null;
@@ -510,7 +529,7 @@ class Component extends DCLogic {
         const n = slides.length, idx = Math.min(car[key] || 0, n - 1);
         const set = (v) => this.setState(s => ({ car: { ...(s.car || {}), [key]: (v + n) % n } }));
         return {
-          num: String(i + 1).padStart(2, '0'), title: tp.title, date: tp.date,
+          num: String(i + 1).padStart(2, '0'), label: tp.label || ('TP ' + String(i + 1).padStart(2, '0')), title: tp.title, date: tp.date,
           text: Array.isArray(tp.text) ? tp.text : [tp.text],
           slides, multi: n > 1, counter: (idx + 1) + ' / ' + n,
           trackStyle: { display: 'flex', transform: 'translateX(-' + (idx * 100) + '%)', transition: 'transform .45s cubic-bezier(.4,0,.2,1)' },
@@ -521,7 +540,7 @@ class Component extends DCLogic {
     }
 
     const avatarStyle = { width: '100%', height: '100%', borderRadius: '50%', backgroundImage: 'url("' + IMG + 'profil/photo.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' };
-    return { avatarStyle, nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
+    return { openMail, avatarStyle, nav, active: a, cv: CV, goHome: this.go('qui-suis-je'), goParent: a.parent ? this.go(a.parent) : null };
   }
 }
 
